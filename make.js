@@ -705,11 +705,12 @@ target.verifyMinAgentDemands = function() {
         console.log(`Latest version of the Agent that's fully rolled out is ${agentVersion}.`);
 
         // Iterate all tasks and make sure none of them depend on a version higher than what's rolled out
+        var invalidMinAgentDemandsExist = false;
         taskList.forEach(function(taskName) {
             var taskPath = path.join(__dirname, 'Tasks', taskName);
             ensureExists(taskPath);
     
-            // load the task.json
+            // Load the task.json
             var taskJsonPath = path.join(taskPath, 'task.json');
             if (test('-f', taskJsonPath)) {
                 var taskDef = fileToJson(taskJsonPath);
@@ -717,11 +718,16 @@ target.verifyMinAgentDemands = function() {
                 if (taskDef.minimumAgentVersion)
                 {
                     if (semver.gt(taskDef.minimumAgentVersion, agentVersion)) {
-                        console.log(`Error! Task ${taskName} has a minimum agent version of ${taskDef.minimumAgentVersion} but the latest version of the Agent is ${agentVersion}.`)
+                        console.log(`Error! Task ${taskName} has a minimum agent version of ${taskDef.minimumAgentVersion} but the latest version of the Agent is ${agentVersion}.`);
+                        invalidMinAgentDemandsExist = true;
                     }
                 }
             }
         });
+
+        if (invalidMinAgentDemandsExist) {
+            exit(1);
+        }
     })
     .catch(error => {
         console.log("Error");
