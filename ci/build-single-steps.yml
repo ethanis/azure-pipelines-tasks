@@ -9,6 +9,9 @@ steps:
   displayName: Start collect diagnostics
   condition: and(succeeded(), eq(variables.os, 'Windows_NT'), eq(variables.collect_diagnostics, 'true'))
 
+# Verify min agent version demands
+- script: npm run verifyMinAgentDemands
+
 # Use node 8, npm 5
 - task: NodeTool@0
   displayName: Use node 8

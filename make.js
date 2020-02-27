@@ -690,7 +690,6 @@ target.gensprintlyzip = function() {
 }
 
 // Verify that no tasks have min agent demands greater than whatever version of the agent is fully rolled out.
-// TODO: Add to CI, should run for single task too
 target.verifyMinAgentDemands = function() {
     console.log("Verifying min agent demands.");
     var octokit = new Octokit();
