@@ -24,7 +24,6 @@ var path = require('path');
 var semver = require('semver');
 var util = require('./make-util');
 var admzip = require('adm-zip');
-//var octokit = require('@octokit/rest');
 const { Octokit } = require("@octokit/rest");
 
 // util functions
